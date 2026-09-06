@@ -31,7 +31,6 @@
             padding-bottom: 50px;
         }
 
-        /* Header & Brand Banner */
         header {
             background: linear-gradient(135deg, #0f172a, #1e1b4b);
             border-bottom: 3px solid var(--ef-neon);
@@ -54,7 +53,6 @@
             margin-top: 5px;
         }
 
-        /* Navigation Bar */
         nav.tab-nav {
             display: flex;
             justify-content: center;
@@ -84,13 +82,17 @@
             border-bottom-color: var(--ef-neon);
         }
 
+        nav.tab-nav a.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         .container {
             max-width: 1100px;
             margin: 30px auto;
             padding: 0 20px;
         }
 
-        /* Tab Content Control */
         .tab-content {
             display: none;
             animation: fadeIn 0.4s ease-in-out;
@@ -105,7 +107,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Cards & UI Panels */
         .section-card {
             background: var(--ef-card);
             border: 1px solid var(--ef-card-border);
@@ -124,27 +125,6 @@
             margin-bottom: 20px;
         }
 
-        /* Welcome Cards */
-        .prizes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-
-        .prize-card {
-            background: #020617;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid var(--ef-card-border);
-        }
-
-        .prize-card.first { border-color: var(--ef-gold); }
-        .prize-card h3 { color: var(--text-light); margin-bottom: 10px; }
-        .prize-card .amount { font-size: 1.8rem; font-weight: bold; color: var(--ef-gold); }
-
-        /* Payment Notice */
         .payment-box {
             background: rgba(0, 34, 68, 0.6);
             border: 2px dashed var(--ef-gold);
@@ -159,7 +139,15 @@
             font-size: 1.3rem;
         }
 
-        /* Embedded Frames */
+        .unlock-box {
+            background: #020617;
+            border: 1px solid var(--ef-magenta);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
         .form-wrapper {
             position: relative;
             width: 100%;
@@ -174,25 +162,18 @@
             display: block;
         }
 
-        /* Forms & Buttons */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #94a3b8;
-        }
-
-        .form-group input {
+        .form-input {
             width: 100%;
+            max-width: 320px;
             padding: 12px;
             border-radius: 6px;
             border: 1px solid var(--ef-card-border);
             background: #020617;
             color: #fff;
             font-size: 1rem;
+            margin: 8px auto;
+            display: block;
+            text-align: center;
         }
 
         .btn {
@@ -206,10 +187,12 @@
             border-radius: 6px;
             cursor: pointer;
             width: 100%;
+            max-width: 320px;
             transition: 0.3s;
             text-align: center;
             display: inline-block;
             text-decoration: none;
+            margin-top: 10px;
         }
 
         .btn:hover {
@@ -217,10 +200,9 @@
             box-shadow: 0 0 15px var(--ef-magenta);
         }
 
-        /* Tournament Schedule Layout */
         .groups-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
         }
 
@@ -245,18 +227,26 @@
             background: #020617;
             padding: 12px 15px;
             border-radius: 6px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-left: 3px solid var(--ef-neon);
         }
 
-        .versus { color: var(--ef-gold); font-weight: bold; }
+        .match-time {
+            font-size: 0.8rem;
+            color: var(--ef-gold);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .versus { color: var(--ef-magenta); font-weight: bold; }
 
         @media (max-width: 600px) {
             header h1 { font-size: 1.8rem; }
             nav.tab-nav a { padding: 10px 12px; font-size: 0.8rem; }
+            .match-row { flex-direction: column; text-align: center; gap: 5px; }
         }
     </style>
 </head>
@@ -264,121 +254,88 @@
 
     <header>
         <h1>eFootball World Cup 2026</h1>
-        <p>1 Week Tournament | 32 Teams Max | Official Tanzanian League</p>
+        <p>1 Week Tournament | Starts Wednesday, Sept 9 | Official League</p>
     </header>
 
-    <!-- Tab Navigation Bar -->
     <nav class="tab-nav">
         <a href="#welcome" id="nav-welcome" class="active" onclick="switchTab('welcome', event)">Home</a>
         <a href="#register" id="nav-register" onclick="switchTab('register', event)">Registration & Pay</a>
-        <a href="#lobby" id="nav-lobby" onclick="switchTab('lobby', event)">Match Lobby</a>
-        <a href="#scores" id="nav-scores" onclick="switchTab('scores', event)">Scores & Brackets</a>
+        <a href="#lobby" id="nav-lobby" class="locked" onclick="switchTab('lobby', event)">Match Lobby 🔒</a>
+        <a href="#scores" id="nav-scores" class="locked" onclick="switchTab('scores', event)">Scores & Brackets 🔒</a>
     </nav>
 
     <div class="container">
 
-        <!-- TAB 1: WELCOME TAB -->
+        <!-- TAB 1: HOME -->
         <div id="welcome" class="tab-content active">
             <div class="section-card">
                 <h2 class="section-title">Welcome to the Championship</h2>
                 <p style="font-size: 1.1rem; line-height: 1.8; color: #cbd5e1;">
-                    Prove your eFootball skills in the ultimate 1-week tournament! Compete against 32 top players in a World Cup format featuring Group Stages and Knockouts.
+                    Prove your eFootball skills in the ultimate 1-week tournament! Compete against registered players in Group Stages and Knockouts starting next week Wednesday.
                 </p>
-
-                <div class="prizes-grid">
-                    <div class="prize-card first">
-                        <h3>🥇 1st Winner</h3>
-                        <div class="amount">50,000 TZS</div>
-                    </div>
-                    <div class="prize-card">
-                        <h3>🥈 2nd Winner</h3>
-                        <div class="amount">30,000 TZS</div>
-                    </div>
-                    <div class="prize-card">
-                        <h3>🥉 3rd Winner</h3>
-                        <div class="amount">20,000 TZS</div>
-                    </div>
-                </div>
-
                 <div style="text-align: center; margin-top: 25px;">
-                    <a href="#register" class="btn" style="max-width: 300px;" onclick="switchTab('register', event)">Register Now (5,000 TZS)</a>
+                    <a href="#register" class="btn" onclick="switchTab('register', event)">Register Now (5,000 TZS)</a>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: REGISTRATION & PAYMENT TAB -->
+        <!-- TAB 2: REGISTRATION & PAYMENT -->
         <div id="register" class="tab-content">
             <div class="section-card">
                 <h2 class="section-title">Registration & Payment</h2>
                 
                 <div class="payment-box">
                     <p>Entry Fee: <strong>5,000 TZS</strong></p>
-                    <p>Send Mobile Payment to Administrator: <strong>0724339847</strong></p>
-                    <p><small style="color: #94a3b8;">Enter your Username & Mobile Money Transaction ID below after sending payment.</small></p>
+                    <p>Send Mobile Payment to: <strong>0724339847</strong></p>
+                    <p><small style="color: #94a3b8;">Enter your Transaction ID in the form below after payment.</small></p>
                 </div>
 
                 <div class="form-wrapper">
-                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe1e9BkZHrpNS9E8zVbQme7ZWQE7FqRoSx9rudrUvNcIXRIgA/viewform?embedded=true" height="800">Loading…</iframe>
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe1e9BkZHrpNS9E8zVbQme7ZWQE7FqRoSx9rudrUvNcIXRIgA/viewform?embedded=true" height="750">Loading…</iframe>
+                </div>
+
+                <!-- Unlocking & Automatic Group Slotting -->
+                <div class="unlock-box">
+                    <h3 style="color: var(--ef-gold); margin-bottom: 10px;">Already Paid? Join Group Stage</h3>
+                    <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 10px;">Enter your details to confirm access and generate your match schedule:</p>
+                    
+                    <input type="text" id="playerName" class="form-input" placeholder="Your eFootball Name / Gamer ID">
+                    <input type="text" id="teamName" class="form-input" placeholder="eFootball Team Name (e.g. Real Madrid)">
+                    <input type="text" id="passcodeInput" class="form-input" placeholder="Enter Access Code">
+                    
+                    <button class="btn" onclick="unlockAndRegister()">Verify & Enter Tournament</button>
+                    <div id="unlockMsg" style="margin-top: 10px; font-weight: bold;"></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 3: MATCH CONNECTING & PLAYING TAB -->
+        <!-- TAB 3: MATCH LOBBY -->
         <div id="lobby" class="tab-content">
             <div class="section-card">
                 <h2 class="section-title">eFootball Match Lobby</h2>
                 <p style="color: #94a3b8; margin-bottom: 20px;">
-                    Connect with your paired opponent. Create a Friend/User Match inside your eFootball app, then share your <strong>Room ID</strong> here.
+                    Create a User Match inside your eFootball app, then share your <strong>Room ID</strong> here.
                 </p>
 
-                <div class="form-group">
-                    <label>Enter Game Room ID (Generated in eFootball app):</label>
-                    <input type="text" id="roomIdInput" placeholder="e.g. 0584-9210">
-                </div>
-                <button class="btn" onclick="shareRoomId()">Broadcast Room ID to Opponent</button>
-
+                <input type="text" id="roomIdInput" class="form-input" placeholder="e.g. 0584-9210">
+                <button class="btn" onclick="shareRoomId()">Broadcast Room ID</button>
                 <div id="roomStatus" style="margin-top: 15px; color: var(--ef-neon); font-weight: bold; text-align: center;"></div>
             </div>
         </div>
 
-        <!-- TAB 4: SCORES & RESULTS TAB -->
+        <!-- TAB 4: SCORES & SCHEDULE -->
         <div id="scores" class="tab-content">
             <div class="section-card">
-                <h2 class="section-title">Verified Registered Players</h2>
-                <p style="color: #94a3b8; margin-bottom: 15px;">Live database updated directly from Google Sheets:</p>
-                
-                <div class="form-wrapper">
-                    <!-- EMBEDDED PUBLISHED GOOGLE SHEET -->
-                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRkyqb5YKLiYpUlrPG3Kl_6Q2fbbpHxY6XaAL-QVd-P6eVDmUfasxH4UIu3UpqYW-A1L5fpRJf2y49-/pubhtml?gid=2010488148&amp;single=true&amp;widget=true&amp;headers=false" height="450">Loading Verified Players…</iframe>
+                <h2 class="section-title">Group Stage Standings</h2>
+                <div class="groups-grid" id="groupsContainer">
+                    <!-- Dynamic Group Slots -->
                 </div>
             </div>
 
             <div class="section-card">
-                <h2 class="section-title">Scores, Fixtures & World Cup Standings</h2>
-                <p style="color: #94a3b8; margin-bottom: 20px;">Tournament duration: 1 Week | Maximum 32 Players</p>
-
-                <h3 style="color: var(--ef-gold); margin-bottom: 12px;">Group Stage (Groups A - H)</h3>
-                <div class="groups-grid" id="groupsContainer">
-                    <!-- Dynamic Groups -->
-                </div>
-
-                <div style="margin-top: 30px;">
-                    <h3 style="color: var(--ef-magenta); margin-bottom: 12px;">Quarter-Finals</h3>
-                    <div class="match-row"><span>Winner Group A</span> <span class="versus">VS</span> <span>Runner-up Group B</span></div>
-                    <div class="match-row"><span>Winner Group C</span> <span class="versus">VS</span> <span>Runner-up Group D</span></div>
-                    <div class="match-row"><span>Winner Group E</span> <span class="versus">VS</span> <span>Runner-up Group F</span></div>
-                    <div class="match-row"><span>Winner Group G</span> <span class="versus">VS</span> <span>Runner-up Group H</span></div>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <h3 style="color: var(--ef-magenta); margin-bottom: 12px;">Semi-Finals</h3>
-                    <div class="match-row"><span>Winner QF 1</span> <span class="versus">VS</span> <span>Winner QF 2</span></div>
-                    <div class="match-row"><span>Winner QF 3</span> <span class="versus">VS</span> <span>Winner QF 4</span></div>
-                </div>
-
-                <div style="margin-top: 25px;">
-                    <h3 style="color: var(--ef-magenta); margin-bottom: 12px;">Grand Final</h3>
-                    <div class="match-row"><span>Winner SF 1</span> <span class="versus">VS</span> <span>Winner SF 2</span></div>
+                <h2 class="section-title">Match Schedule (Starting Wednesday, Sept 9)</h2>
+                <div id="fixturesContainer">
+                    <!-- Scheduled Matches -->
                 </div>
             </div>
         </div>
@@ -386,71 +343,137 @@
     </div>
 
     <script>
-        // Tab Switcher Logic
+        let isPaidUser = false;
+        const SECRET_PASSCODE = "EF2026";
+        
+        // Initial list of registered tournament players
+        let registeredPlayers = [];
+
         function switchTab(tabId, event) {
             if(event) event.preventDefault();
 
-            // Hide all tabs
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
+            if((tabId === 'lobby' || tabId === 'scores') && !isPaidUser) {
+                alert("🔒 Restricted Area: Please complete payment and enter the passcode in the Registration tab.");
+                switchTab('register');
+                return;
+            }
 
-            // Remove active class from nav links
-            const navLinks = document.querySelectorAll('.tab-nav a');
-            navLinks.forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-nav a').forEach(link => link.classList.remove('active'));
 
-            // Show selected tab
             const targetTab = document.getElementById(tabId);
             if(targetTab) targetTab.classList.add('active');
 
-            // Set active class on navbar link
             const activeNav = document.getElementById('nav-' + tabId);
             if(activeNav) activeNav.classList.add('active');
 
-            // Smooth scroll to top of content
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Room ID Sharing Simulation
+        function unlockAndRegister() {
+            const player = document.getElementById('playerName').value.trim();
+            const team = document.getElementById('teamName').value.trim();
+            const passcode = document.getElementById('passcodeInput').value.trim();
+            const msg = document.getElementById('unlockMsg');
+
+            if(!player || !team) {
+                msg.style.color = "var(--ef-magenta)";
+                msg.innerText = "⚠️ Please enter your Gamer ID and Team Name.";
+                return;
+            }
+
+            if(passcode.toUpperCase() === SECRET_PASSCODE) {
+                isPaidUser = true;
+                
+                // Add player to local group stage list
+                registeredPlayers.push({ player: player, team: team });
+
+                msg.style.color = "var(--ef-neon)";
+                msg.innerText = `✅ Verified! ${team} has been added to Group Stage.`;
+
+                // Unlock nav bar
+                document.getElementById('nav-lobby').classList.remove('locked');
+                document.getElementById('nav-scores').classList.remove('locked');
+                document.getElementById('nav-lobby').innerText = "Match Lobby";
+                document.getElementById('nav-scores').innerText = "Scores & Brackets";
+
+                // Refresh tournament tables & schedule
+                renderTournament();
+
+                setTimeout(() => switchTab('scores'), 1200);
+            } else {
+                msg.style.color = "var(--ef-magenta)";
+                msg.innerText = "❌ Invalid Passcode. Please complete payment first.";
+            }
+        }
+
         function shareRoomId() {
             const roomId = document.getElementById('roomIdInput').value.trim();
             const status = document.getElementById('roomStatus');
             if (roomId) {
-                status.innerText = `Room ID [ ${roomId} ] posted! Give this code to your matched opponent in eFootball.`;
+                status.innerText = `Room ID [ ${roomId} ] posted! Share this with your matched opponent.`;
             } else {
                 status.innerText = "Please enter a valid eFootball Room ID.";
             }
         }
 
-        // Render Tournament Groups
-        const sampleTeams = [
-            "FC Barcelona", "Real Madrid", "Bayern Munich", "Manchester City",
-            "PSG", "Arsenal", "Inter Milan", "Liverpool",
-            "Juventus", "Chelsea", "Atletico Madrid", "BVB Dortmund",
-            "AC Milan", "Napoli", "Benfica", "Ajax",
-            "Roma", "Sevilla", "Bayer Leverkusen", "Porto",
-            "Sporting CP", "RB Leipzig", "Villareal", "Lazio",
-            "Fiorentina", "Monaco", "Marseille", "Lyon",
-            "Galatasaray", "Fenerbahce", "Celtic", "Feyenoord"
-        ];
+        function renderTournament() {
+            const groupsContainer = document.getElementById('groupsContainer');
+            const fixturesContainer = document.getElementById('fixturesContainer');
+            
+            groupsContainer.innerHTML = '';
+            fixturesContainer.innerHTML = '';
 
-        function renderGroups() {
-            const container = document.getElementById('groupsContainer');
-            container.innerHTML = '';
             const groupLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-            let idx = 0;
+            let playerIdx = 0;
 
+            // Render Groups
             groupLetters.forEach(letter => {
                 let html = `<div class="group-card"><h4>Group ${letter}</h4><ul>`;
                 for (let i = 0; i < 4; i++) {
-                    html += `<li>• ${sampleTeams[idx] || "TBD"}</li>`;
-                    idx++;
+                    if (registeredPlayers[playerIdx]) {
+                        html += `<li>• <strong>${registeredPlayers[playerIdx].team}</strong> (${registeredPlayers[playerIdx].player})</li>`;
+                    } else {
+                        html += `<li style="color: #64748b;">• Open Slot (Awaiting Payment)</li>`;
+                    }
+                    playerIdx++;
                 }
                 html += `</ul></div>`;
-                container.innerHTML += html;
+                groupsContainer.innerHTML += html;
             });
+
+            // Generate Match Schedule starting Wednesday, Sept 9, 2026
+            let startDate = new Date(2026, 8, 9); // Sept 9, 2026
+            let times = ["16:00 EAT", "18:00 EAT", "20:00 EAT"];
+
+            if (registeredPlayers.length < 2) {
+                fixturesContainer.innerHTML = `<p style="color: #94a3b8; text-align: center;">Waiting for at least 2 registered players to generate matches.</p>`;
+                return;
+            }
+
+            for (let i = 0; i < registeredPlayers.length - 1; i += 2) {
+                let matchDate = new Date(startDate);
+                matchDate.setDate(startDate.getDate() + Math.floor(i / 3));
+                let timeSlot = times[(i / 2) % 3];
+
+                let dateStr = matchDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+                fixturesContainer.innerHTML += `
+                    <div class="match-row">
+                        <div>
+                            <span class="match-time">📅 ${dateStr} @ ${timeSlot}</span>
+                            <strong>${registeredPlayers[i].team}</strong> 
+                        </div>
+                        <span class="versus">VS</span>
+                        <div>
+                            <strong>${registeredPlayers[i+1] ? registeredPlayers[i+1].team : 'TBD'}</strong>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
-        window.onload = renderGroups;
+        window.onload = renderTournament;
     </script>
 </body>
 </html>
