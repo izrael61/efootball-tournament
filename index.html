@@ -7,13 +7,12 @@
     <style>
         :root {
             --ef-blue: #002244;
-            --ef-dark: #070b19;
+            --ef-dark: #030611;
             --ef-neon: #00ffcc;
             --ef-magenta: #ff0055;
+            --ef-purple: #7928ca;
             --ef-gold: #f39c12;
-            --ef-card: #0f172a;
-            --ef-card-border: #1e293b;
-            --text-light: #f8fafc;
+            --text-light: #ffffff;
         }
 
         * {
@@ -26,60 +25,186 @@
         body {
             background-color: var(--ef-dark);
             color: var(--text-light);
-            background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--ef-dark) 70%);
             min-height: 100vh;
             padding-bottom: 50px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* FULL VISIBILITY BACKGROUND STICKER */
+        .sticker-bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -3;
+            background-image: url('st,small,507x507-pad,600x600,f8f8f8.u1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(85%) contrast(110%);
+            animation: bgPulseZoom 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulseZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* LIGHT NEON SHADOW OVERLAY FOR CONTRAST */
+        .dark-neon-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(3, 6, 17, 0.6) 90%);
+            pointer-events: none;
+        }
+
+        /* GEOMETRIC FLOATING ORBS */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            z-index: -1;
+            pointer-events: none;
+            animation: orbFloat 10s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 380px;
+            height: 380px;
+            background: var(--ef-magenta);
+            top: 5%;
+            left: 10%;
+        }
+
+        .orb-2 {
+            width: 480px;
+            height: 480px;
+            background: var(--ef-neon);
+            bottom: 5%;
+            right: 5%;
+            animation-delay: -5s;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, -40px) scale(1.15); }
         }
 
         header {
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
-            border-bottom: 3px solid var(--ef-neon);
+            background: rgba(3, 6, 17, 0.4);
+            backdrop-filter: blur(8px);
+            border-bottom: 2px solid rgba(0, 255, 204, 0.5);
             text-align: center;
             padding: 25px 15px;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+            position: relative;
         }
 
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #fff;
-            text-shadow: 0 0 10px var(--ef-neon);
+            letter-spacing: 3px;
+            color: #ffffff;
+            text-shadow: 0 0 15px var(--ef-neon), 0 0 30px var(--ef-neon), 0 4px 12px rgba(0,0,0,1);
+            animation: pulseGlow 2.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 12px var(--ef-neon), 0 4px 12px rgba(0,0,0,1); }
+            100% { text-shadow: 0 0 28px var(--ef-neon), 0 0 18px var(--ef-magenta), 0 4px 12px rgba(0,0,0,1); }
         }
 
         header p {
             color: var(--ef-neon);
-            font-size: 1rem;
+            font-size: 1.05rem;
             margin-top: 5px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,1);
+            font-weight: bold;
+        }
+
+        /* PHONK AUDIO BADGE */
+        .phonk-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 6px 18px;
+            border-radius: 30px;
+            border: 1px solid var(--ef-neon);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+        }
+
+        .equalizer-wave {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 14px;
+        }
+
+        .equalizer-bar {
+            width: 3px;
+            background: var(--ef-neon);
+            border-radius: 3px;
+            animation: bounceBar 0.8s ease-in-out infinite alternate;
+        }
+
+        .equalizer-bar:nth-child(1) { height: 60%; animation-delay: -0.2s; }
+        .equalizer-bar:nth-child(2) { height: 100%; animation-delay: -0.4s; }
+        .equalizer-bar:nth-child(3) { height: 40%; animation-delay: -0.1s; }
+        .equalizer-bar:nth-child(4) { height: 80%; animation-delay: -0.3s; }
+
+        @keyframes bounceBar {
+            0% { transform: scaleY(0.3); }
+            100% { transform: scaleY(1); }
+        }
+
+        .track-title {
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,1);
         }
 
         nav.tab-nav {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            background: #020617;
-            border-bottom: 2px solid var(--ef-card-border);
+            background: rgba(3, 6, 17, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 204, 0.3);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
         nav.tab-nav a {
-            padding: 15px 25px;
+            padding: 16px 28px;
             color: var(--text-light);
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-bottom: 3px solid transparent;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 1);
         }
 
         nav.tab-nav a:hover, nav.tab-nav a.active {
             color: var(--ef-neon);
-            background: rgba(0, 255, 204, 0.05);
+            background: rgba(0, 255, 204, 0.15);
             border-bottom-color: var(--ef-neon);
+            text-shadow: 0 0 12px rgba(0, 255, 204, 0.9);
         }
 
         nav.tab-nav a.locked {
@@ -89,61 +214,114 @@
 
         .container {
             max-width: 1100px;
-            margin: 30px auto;
+            margin: 40px auto;
             padding: 0 20px;
         }
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.4s ease-in-out;
+            animation: slideUpScale 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .tab-content.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideUpScale {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* NO BACKGROUND BOXES - WORDS DIRECTLY ON THE BACKGROUND STICKER */
+        .hero-motion-card {
+            background: transparent;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            color: #ffffff;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.8), 0 4px 12px rgba(0, 0, 0, 1), 0 0 30px rgba(0,0,0,1);
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #ffffff;
+            max-width: 850px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 1), 0 0 20px rgba(0,0,0,1);
+            font-weight: 700;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--ef-magenta), var(--ef-purple));
+            color: #fff;
+            padding: 8px 22px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 22px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.8);
+            animation: pulseBadge 2s infinite ease-in-out;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes pulseBadge {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 0, 85, 0.8); }
+            50% { transform: scale(1.06); box-shadow: 0 0 30px rgba(255, 0, 85, 1); }
         }
 
         .section-card {
-            background: var(--ef-card);
-            border: 1px solid var(--ef-card-border);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            background: transparent;
+            padding: 20px;
+            margin-bottom: 30px;
         }
 
         .section-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: var(--ef-neon);
             text-transform: uppercase;
             border-left: 4px solid var(--ef-magenta);
-            padding-left: 10px;
-            margin-bottom: 20px;
+            padding-left: 12px;
+            margin-bottom: 22px;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.8), 0 3px 8px rgba(0, 0, 0, 1), 0 0 20px rgba(0,0,0,1);
         }
 
         .payment-box {
-            background: rgba(0, 34, 68, 0.6);
+            background: transparent;
             border: 2px dashed var(--ef-gold);
-            border-radius: 8px;
-            padding: 18px;
+            border-radius: 10px;
+            padding: 20px;
             margin-bottom: 20px;
             text-align: center;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 1), 0 0 15px rgba(0,0,0,1);
+            font-size: 1.1rem;
         }
 
         .payment-box strong {
             color: var(--ef-gold);
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            text-shadow: 0 0 12px rgba(243, 156, 18, 0.8), 0 2px 8px rgba(0,0,0,1);
         }
 
         .unlock-box {
-            background: #020617;
-            border: 1px solid var(--ef-magenta);
-            border-radius: 8px;
-            padding: 20px;
+            background: transparent;
+            border-top: 1px solid var(--ef-magenta);
+            padding: 25px 10px;
             margin-top: 25px;
             text-align: center;
         }
@@ -151,9 +329,10 @@
         .form-wrapper {
             position: relative;
             width: 100%;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
             background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         iframe {
@@ -164,97 +343,157 @@
 
         .form-input {
             width: 100%;
-            max-width: 320px;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--ef-card-border);
-            background: #020617;
+            max-width: 340px;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid var(--ef-neon);
+            background: rgba(2, 6, 23, 0.85);
             color: #fff;
             font-size: 1rem;
-            margin: 8px auto;
+            margin: 10px auto;
             display: block;
             text-align: center;
+            outline: none;
+            transition: border-color 0.3s ease;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .form-input:focus {
+            border-color: var(--ef-neon);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.8);
         }
 
         .btn {
-            background: linear-gradient(90deg, var(--ef-magenta), #c084fc);
+            background: linear-gradient(90deg, var(--ef-magenta), var(--ef-purple));
             color: #fff;
             border: none;
-            padding: 12px 20px;
+            padding: 15px 28px;
             font-size: 1rem;
             font-weight: bold;
             text-transform: uppercase;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            max-width: 320px;
-            transition: 0.3s;
+            max-width: 340px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
             display: inline-block;
             text-decoration: none;
             margin-top: 10px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
 
         .btn:hover {
-            opacity: 0.9;
-            box-shadow: 0 0 15px var(--ef-magenta);
+            box-shadow: 0 0 25px var(--ef-magenta);
+            transform: translateY(-3px) scale(1.02);
         }
 
         .groups-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
+            gap: 18px;
         }
 
         .group-card {
-            background: #020617;
-            border: 1px solid var(--ef-card-border);
-            border-radius: 8px;
-            padding: 15px;
+            background: transparent;
+            border: 1px solid rgba(0, 255, 204, 0.4);
+            border-radius: 10px;
+            padding: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .group-card:hover {
+            transform: translateY(-4px);
         }
 
         .group-card h4 {
             color: var(--ef-gold);
-            border-bottom: 1px solid var(--ef-card-border);
-            padding-bottom: 5px;
-            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 255, 204, 0.3);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 6px rgba(0,0,0,1);
         }
 
         .group-card ul { list-style: none; }
-        .group-card li { padding: 4px 0; font-size: 0.9rem; color: #cbd5e1; }
+        .group-card li { padding: 5px 0; font-size: 0.95rem; color: #ffffff; text-shadow: 0 2px 6px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,1); font-weight: 600; }
 
         .match-row {
-            background: #020617;
-            padding: 12px 15px;
-            border-radius: 6px;
-            margin-bottom: 10px;
+            background: transparent;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 3px solid var(--ef-neon);
+            border-left: 4px solid var(--ef-neon);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.2s ease;
+            text-shadow: 0 2px 6px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,1);
+            font-size: 1.05rem;
+        }
+
+        .match-row:hover {
+            transform: translateX(4px);
         }
 
         .match-time {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--ef-gold);
             display: block;
             margin-bottom: 4px;
+            text-shadow: 0 1px 4px rgba(0,0,0,1);
         }
 
-        .versus { color: var(--ef-magenta); font-weight: bold; }
+        .versus { color: var(--ef-magenta); font-weight: bold; text-shadow: 0 0 10px rgba(255, 0, 85, 0.8), 0 2px 4px rgba(0,0,0,1); }
 
         @media (max-width: 600px) {
-            header h1 { font-size: 1.8rem; }
-            nav.tab-nav a { padding: 10px 12px; font-size: 0.8rem; }
-            .match-row { flex-direction: column; text-align: center; gap: 5px; }
+            header h1 { font-size: 1.9rem; }
+            nav.tab-nav a { padding: 12px 14px; font-size: 0.8rem; }
+            .match-row { flex-direction: column; text-align: center; gap: 6px; }
+            .hero-title { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- VISIBLE STICKER BACKGROUND -->
+    <div class="sticker-bg-layer"></div>
+    <div class="dark-neon-overlay"></div>
+
+    <!-- GEOMETRIC ORBS -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- UI SOUNDS -->
+    <audio id="clickSound" preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="successSound" preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc029.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- LOCAL PHONK TRACK PLAYER -->
+    <audio id="phonkPlayer" loop preload="auto">
+        <source src="matadora-n-ized.mp3" type="audio/mpeg">
+    </audio>
+
     <header>
         <h1>eFootball World Cup 2026</h1>
         <p>1 Week Tournament | Starts Wednesday, Sept 9 | Official League</p>
+        
+        <!-- PHONK VISUAL INDICATOR -->
+        <div class="phonk-status-badge">
+            <div class="equalizer-wave">
+                <div class="equalizer-bar"></div>
+                <div class="equalizer-bar"></div>
+                <div class="equalizer-bar"></div>
+                <div class="equalizer-bar"></div>
+            </div>
+            <span class="track-title">MATADORA N IZED</span>
+        </div>
     </header>
 
     <nav class="tab-nav">
@@ -266,14 +505,15 @@
 
     <div class="container">
 
-        <!-- TAB 1: HOME -->
+        <!-- TAB 1: HOME PAGE -->
         <div id="welcome" class="tab-content active">
-            <div class="section-card">
-                <h2 class="section-title">Welcome to the Championship</h2>
-                <p style="font-size: 1.1rem; line-height: 1.8; color: #cbd5e1;">
-                    Prove your eFootball skills in the ultimate 1-week tournament! Compete against registered players in Group Stages and Knockouts starting next week Wednesday.
+            <div class="hero-motion-card">
+                <span class="hero-badge">⚡ Tournament Ready</span>
+                <h2 class="hero-title">Claim the Championship Crown</h2>
+                <p class="hero-description">
+                    Step into the arena! Compete against top-tier eFootball players in a high-intensity 1-week tournament featuring Group Stages and intense Knockout rounds.
                 </p>
-                <div style="text-align: center; margin-top: 25px;">
+                <div>
                     <a href="#register" class="btn" onclick="switchTab('register', event)">Register Now (5,000 TZS)</a>
                 </div>
             </div>
@@ -287,7 +527,7 @@
                 <div class="payment-box">
                     <p>Entry Fee: <strong>5,000 TZS</strong></p>
                     <p>Send Mobile Payment to: <strong>0724339847</strong></p>
-                    <p><small style="color: #94a3b8;">Enter your Transaction ID in the form below after payment.</small></p>
+                    <p><small style="color: #f1f5f9; text-shadow: 0 1px 3px rgba(0,0,0,1);">Enter your Transaction ID in the form below after payment.</small></p>
                 </div>
 
                 <div class="form-wrapper">
@@ -296,15 +536,15 @@
 
                 <!-- Unlocking & Automatic Group Slotting -->
                 <div class="unlock-box">
-                    <h3 style="color: var(--ef-gold); margin-bottom: 10px;">Already Paid? Join Group Stage</h3>
-                    <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 10px;">Enter your details to confirm access and generate your match schedule:</p>
+                    <h3 style="color: var(--ef-gold); margin-bottom: 10px; text-shadow: 0 2px 6px rgba(0,0,0,1);">Already Paid? Join Group Stage</h3>
+                    <p style="color: #ffffff; font-size: 0.95rem; margin-bottom: 10px; text-shadow: 0 1px 4px rgba(0,0,0,1); font-weight: 600;">Enter your details to confirm access and generate your match schedule:</p>
                     
                     <input type="text" id="playerName" class="form-input" placeholder="Your eFootball Name / Gamer ID">
                     <input type="text" id="teamName" class="form-input" placeholder="eFootball Team Name (e.g. Real Madrid)">
                     <input type="text" id="passcodeInput" class="form-input" placeholder="Enter Access Code">
                     
                     <button class="btn" onclick="unlockAndRegister()">Verify & Enter Tournament</button>
-                    <div id="unlockMsg" style="margin-top: 10px; font-weight: bold;"></div>
+                    <div id="unlockMsg" style="margin-top: 10px; font-weight: bold; text-shadow: 0 2px 6px rgba(0,0,0,1);"></div>
                 </div>
             </div>
         </div>
@@ -313,13 +553,13 @@
         <div id="lobby" class="tab-content">
             <div class="section-card">
                 <h2 class="section-title">eFootball Match Lobby</h2>
-                <p style="color: #94a3b8; margin-bottom: 20px;">
+                <p style="color: #ffffff; margin-bottom: 20px; font-size: 1.1rem; text-shadow: 0 2px 6px rgba(0,0,0,1); font-weight: 600;">
                     Create a User Match inside your eFootball app, then share your <strong>Room ID</strong> here.
                 </p>
 
                 <input type="text" id="roomIdInput" class="form-input" placeholder="e.g. 0584-9210">
                 <button class="btn" onclick="shareRoomId()">Broadcast Room ID</button>
-                <div id="roomStatus" style="margin-top: 15px; color: var(--ef-neon); font-weight: bold; text-align: center;"></div>
+                <div id="roomStatus" style="margin-top: 15px; color: var(--ef-neon); font-weight: bold; text-align: center; text-shadow: 0 0 12px rgba(0,255,204,0.8), 0 2px 6px rgba(0,0,0,1);"></div>
             </div>
         </div>
 
@@ -345,12 +585,51 @@
     <script>
         let isPaidUser = false;
         const SECRET_PASSCODE = "EF2026";
-        
-        // Initial list of registered tournament players
         let registeredPlayers = [];
+
+        // PLAY SONG INSTANTLY ON SCROLL
+        function triggerAudioPlayback() {
+            const player = document.getElementById('phonkPlayer');
+            if (player && player.paused) {
+                player.volume = 0.5;
+                player.play().then(() => {
+                    removeAudioListeners();
+                }).catch(() => {});
+            }
+        }
+
+        function removeAudioListeners() {
+            window.removeEventListener('scroll', triggerAudioPlayback);
+            window.removeEventListener('click', triggerAudioPlayback);
+            window.removeEventListener('touchstart', triggerAudioPlayback);
+            window.removeEventListener('keydown', triggerAudioPlayback);
+        }
+
+        // LISTEN FOR SCROLL AS WELL AS CLICK AND TOUCH
+        window.addEventListener('scroll', triggerAudioPlayback, { passive: true });
+        window.addEventListener('click', triggerAudioPlayback);
+        window.addEventListener('touchstart', triggerAudioPlayback);
+        window.addEventListener('keydown', triggerAudioPlayback);
+
+        function playClickSFX() {
+            const click = document.getElementById('clickSound');
+            if (click) {
+                click.currentTime = 0;
+                click.play().catch(() => {});
+            }
+        }
+
+        function playSuccessSFX() {
+            const success = document.getElementById('successSound');
+            if (success) {
+                success.currentTime = 0;
+                success.play().catch(() => {});
+            }
+        }
 
         function switchTab(tabId, event) {
             if(event) event.preventDefault();
+            playClickSFX();
 
             if((tabId === 'lobby' || tabId === 'scores') && !isPaidUser) {
                 alert("🔒 Restricted Area: Please complete payment and enter the passcode in the Registration tab.");
@@ -371,6 +650,7 @@
         }
 
         function unlockAndRegister() {
+            playClickSFX();
             const player = document.getElementById('playerName').value.trim();
             const team = document.getElementById('teamName').value.trim();
             const passcode = document.getElementById('passcodeInput').value.trim();
@@ -383,21 +663,19 @@
             }
 
             if(passcode.toUpperCase() === SECRET_PASSCODE) {
+                playSuccessSFX();
                 isPaidUser = true;
                 
-                // Add player to local group stage list
                 registeredPlayers.push({ player: player, team: team });
 
                 msg.style.color = "var(--ef-neon)";
                 msg.innerText = `✅ Verified! ${team} has been added to Group Stage.`;
 
-                // Unlock nav bar
                 document.getElementById('nav-lobby').classList.remove('locked');
                 document.getElementById('nav-scores').classList.remove('locked');
                 document.getElementById('nav-lobby').innerText = "Match Lobby";
                 document.getElementById('nav-scores').innerText = "Scores & Brackets";
 
-                // Refresh tournament tables & schedule
                 renderTournament();
 
                 setTimeout(() => switchTab('scores'), 1200);
@@ -408,9 +686,11 @@
         }
 
         function shareRoomId() {
+            playClickSFX();
             const roomId = document.getElementById('roomIdInput').value.trim();
             const status = document.getElementById('roomStatus');
             if (roomId) {
+                playSuccessSFX();
                 status.innerText = `Room ID [ ${roomId} ] posted! Share this with your matched opponent.`;
             } else {
                 status.innerText = "Please enter a valid eFootball Room ID.";
@@ -427,14 +707,13 @@
             const groupLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
             let playerIdx = 0;
 
-            // Render Groups
             groupLetters.forEach(letter => {
                 let html = `<div class="group-card"><h4>Group ${letter}</h4><ul>`;
                 for (let i = 0; i < 4; i++) {
                     if (registeredPlayers[playerIdx]) {
                         html += `<li>• <strong>${registeredPlayers[playerIdx].team}</strong> (${registeredPlayers[playerIdx].player})</li>`;
                     } else {
-                        html += `<li style="color: #64748b;">• Open Slot (Awaiting Payment)</li>`;
+                        html += `<li style="color: #cbd5e1; text-shadow: 0 1px 3px rgba(0,0,0,1);">• Open Slot (Awaiting Payment)</li>`;
                     }
                     playerIdx++;
                 }
@@ -442,12 +721,11 @@
                 groupsContainer.innerHTML += html;
             });
 
-            // Generate Match Schedule starting Wednesday, Sept 9, 2026
-            let startDate = new Date(2026, 8, 9); // Sept 9, 2026
+            let startDate = new Date(2026, 8, 9);
             let times = ["16:00 EAT", "18:00 EAT", "20:00 EAT"];
 
             if (registeredPlayers.length < 2) {
-                fixturesContainer.innerHTML = `<p style="color: #94a3b8; text-align: center;">Waiting for at least 2 registered players to generate matches.</p>`;
+                fixturesContainer.innerHTML = `<p style="color: #ffffff; text-align: center; text-shadow: 0 2px 6px rgba(0,0,0,1); font-size: 1.1rem; font-weight: 600;">Waiting for at least 2 registered players to generate matches.</p>`;
                 return;
             }
 
